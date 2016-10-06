@@ -20,7 +20,10 @@ You need to get JMXClient instance and use it.
   * ```JMXClient client = JMXClient.getJMXClient(hostname, Port, UserName, Password, Require SSL)```
 
 After your JMX operation(s), you have to close the connection:
-```client.close()```
+
+```
+client.close()
+```
 
 ## Examples
 
