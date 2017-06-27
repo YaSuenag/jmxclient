@@ -2,12 +2,12 @@
 
 ## Pre-Requirements
 
-* JDK 9 b139 or later
+* JDK 9 b175 or later
 
 ## How to use
 
 ```
-$ jshell --add-exports jdk.jconsole/sun.tools.jconsole jmxclient.jsh
+$ jshell --add-exports jdk.jconsole/sun.tools.jconsole --feedback jmxclient jmxclient.jsh
 ```
 
 You need to get JMXClient instance and use it.
@@ -28,26 +28,19 @@ client.close()
 ## Examples
 
 ```
-$ jshell --add-exports jdk.jconsole/sun.tools.jconsole jmxclient.jsh
+$ jshell --add-exports jdk.jconsole/sun.tools.jconsole --feedback jmxclient jmxclient.jsh
 JMXClient 0.1.0
-Copyright (C) 2016  Yasumasa Suenaga
-|  Welcome to JShell -- Version 9-internal
+Copyright (C) 2016-2017 Yasumasa Suenaga
+|  Welcome to JShell -- Version 9
 |  For an introduction type: /help intro
-
 jmxclient> JMXClient.listLocalVMs()
-23497: jdk.jshell.execution.RemoteExecutionControl 38649
-23468: jdk.jshell/jdk.internal.jshell.tool.JShellTool --add-exports jdk.jconsole/sun.tools.jconsole jmxclient.jsh
-jmxclient> JMXClient client = JMXClient.getJMXClient(23497)
+12881: jdk.jshell/jdk.internal.jshell.tool.JShellToolProvider --add-exports jdk.jconsole/sun.tools.jconsole --feedback jmxclient jmxclient.jsh
+12906: jdk.jshell.execution.RemoteExecutionControl 40933
+jmxclient> JMXClient client = JMXClient.getJMXClient(12906)
 jmxclient> client.listMBeans()
 java.lang:name=Metaspace,type=MemoryPool:
   Information on the management interface of the MBean
-java.lang:name=Eden Space,type=MemoryPool:
-  Information on the management interface of the MBean
 java.lang:name=CodeHeap 'profiled nmethods',type=MemoryPool:
-  Information on the management interface of the MBean
-java.lang:name=Survivor Space,type=MemoryPool:
-  Information on the management interface of the MBean
-java.lang:name=Copy,type=GarbageCollector:
   Information on the management interface of the MBean
 JMImplementation:type=MBeanServerDelegate:
   Represents  the MBean server from the management point of view.
@@ -57,15 +50,13 @@ java.lang:type=Threading:
   Information on the management interface of the MBean
 java.lang:type=OperatingSystem:
   Information on the management interface of the MBean
-java.lang:name=MarkSweepCompact,type=GarbageCollector:
-  Information on the management interface of the MBean
 java.nio:name=direct,type=BufferPool:
   Information on the management interface of the MBean
 java.lang:type=Compilation:
   Information on the management interface of the MBean
 java.lang:name=CodeHeap 'non-nmethods',type=MemoryPool:
   Information on the management interface of the MBean
-java.lang:name=Tenured Gen,type=MemoryPool:
+java.lang:name=G1 Young Generation,type=GarbageCollector:
   Information on the management interface of the MBean
 java.lang:name=CodeCacheManager,type=MemoryManager:
   Information on the management interface of the MBean
@@ -73,9 +64,15 @@ java.lang:name=Compressed Class Space,type=MemoryPool:
   Information on the management interface of the MBean
 java.lang:type=Memory:
   Information on the management interface of the MBean
+java.lang:name=G1 Eden Space,type=MemoryPool:
+  Information on the management interface of the MBean
+java.lang:name=G1 Old Gen,type=MemoryPool:
+  Information on the management interface of the MBean
 java.nio:name=mapped,type=BufferPool:
   Information on the management interface of the MBean
 java.util.logging:type=Logging:
+  Information on the management interface of the MBean
+java.lang:name=G1 Old Generation,type=GarbageCollector:
   Information on the management interface of the MBean
 java.lang:type=ClassLoading:
   Information on the management interface of the MBean
@@ -83,6 +80,8 @@ java.lang:name=Metaspace Manager,type=MemoryManager:
   Information on the management interface of the MBean
 com.sun.management:type=DiagnosticCommand:
   Diagnostic Commands
+java.lang:name=G1 Survivor Space,type=MemoryPool:
+  Information on the management interface of the MBean
 java.lang:name=CodeHeap 'non-profiled nmethods',type=MemoryPool:
   Information on the management interface of the MBean
 com.sun.management:type=HotSpotDiagnostic:
@@ -108,6 +107,11 @@ Operations:
   java.lang.String gcRun ()
   java.lang.String gcRunFinalization ()
   java.lang.String help ([Ljava.lang.String; arguments)
+  java.lang.String jfrCheck ([Ljava.lang.String; arguments)
+  java.lang.String jfrConfigure ([Ljava.lang.String; arguments)
+  java.lang.String jfrDump ([Ljava.lang.String; arguments)
+  java.lang.String jfrStart ([Ljava.lang.String; arguments)
+  java.lang.String jfrStop ([Ljava.lang.String; arguments)
   java.lang.String jvmtiAgentLoad ([Ljava.lang.String; arguments)
   java.lang.String jvmtiDataDump ()
   java.lang.String threadPrint ([Ljava.lang.String; arguments)
@@ -132,14 +136,10 @@ Notifications:
     jmx.mbean.info.changed
 jmxclient> String result = (String)client.invoke("com.sun.management:type=DiagnosticCommand", "gcHeapInfo", new Object[0], new String[0])
 jmxclient> System.out.println(result)
- def new generation   total 14848K, used 8249K [0x00000000d1e00000, 0x00000000d2e10000, 0x00000000e1400000)
-  eden space 13248K,  62% used [0x00000000d1e00000, 0x00000000d260e550, 0x00000000d2af0000)
-  from space 1600K,   0% used [0x00000000d2af0000, 0x00000000d2af0000, 0x00000000d2c80000)
-  to   space 1600K,   0% used [0x00000000d2c80000, 0x00000000d2c80000, 0x00000000d2e10000)
- tenured generation   total 32768K, used 2773K [0x00000000e1400000, 0x00000000e3400000, 0x0000000100000000)
-   the space 32768K,   8% used [0x00000000e1400000, 0x00000000e16b5640, 0x00000000e16b5800, 0x00000000e3400000)
- Metaspace       used 15114K, capacity 16732K, committed 16896K, reserved 1064960K
-  class space    used 1658K, capacity 1963K, committed 2048K, reserved 1048576K
+ garbage-first heap   total 256000K, used 13252K [0x00000006c6e00000, 0x00000006c6f007d0, 0x00000007c0000000)
+  region size 1024K, 11 young (11264K), 1 survivors (1024K)
+ Metaspace       used 17419K, capacity 19140K, committed 19328K, reserved 1067008K
+  class space    used 1824K, capacity 2111K, committed 2176K, reserved 1048576K
 
 jmxclient> client.close()
 ```

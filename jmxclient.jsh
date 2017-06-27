@@ -1,7 +1,7 @@
 /*
  * jmxclient.jsh
  *
- * Copyright (C) 2016 Yasumasa Suenaga
+ * Copyright (C) 2016-2017 Yasumasa Suenaga
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -168,10 +168,9 @@ class JMXClient implements AutoCloseable{
 
 
 /*** JShell settings ***/
-/set mode jmxclient
+/set mode jmxclient -command
 /set prompt jmxclient "jmxclient> " "        -> "
-/set feedback jmxclient
 
 /*** Banner ***/
 System.out.println("JMXClient 0.1.0");
-System.out.println("Copyright (C) 2016  Yasumasa Suenaga");
+System.out.println("Copyright (C) 2016-2017 Yasumasa Suenaga");
