@@ -158,6 +158,8 @@ jmxclient> client.close()
   * Dump MBean information.
 * ```invoke(name, operationName, params, signature)```
   * Invoke JMX method. It returns result of JMX method.
+* `AttributeList getAttributes(String objectName, String... attrNames)`
+  * Get [AttributeList](https://docs.oracle.com/javase/9/docs/api/javax/management/AttributeList.html) from MBean which is named `objectName` . You need to choose attributes what you want via `attrNames` .
 
 ## License
 

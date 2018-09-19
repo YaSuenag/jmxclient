@@ -1,7 +1,7 @@
 /*
  * jmxclient.jsh
  *
- * Copyright (C) 2016-2017 Yasumasa Suenaga
+ * Copyright (C) 2016-2018 Yasumasa Suenaga
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -164,6 +164,11 @@ class JMXClient implements AutoCloseable{
                                      operationName, params, signature);
   }
 
+  public AttributeList getAttributes(String objectName, String... attrNames)
+                               throws IOException, MalformedObjectNameException{
+    return client.getAttributes(new ObjectName(objectName), attrNames);
+  }
+
 }
 
 
@@ -173,4 +178,4 @@ class JMXClient implements AutoCloseable{
 
 /*** Banner ***/
 System.out.println("JMXClient 0.1.0");
-System.out.println("Copyright (C) 2016-2017 Yasumasa Suenaga");
+System.out.println("Copyright (C) 2016-2018 Yasumasa Suenaga");
